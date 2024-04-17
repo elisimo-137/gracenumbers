@@ -5,7 +5,7 @@ export default function Random(props) {
       <div className="text-md border:450px  gap-2 p-1 italic text-slate-50">
         {text}
       </div>
-      <div className=" text-1xl animate-spin rounded-sm bg-red-500 p-2  text-2xl shadow-red-100 ring-offset-green-600 drop-shadow-sm duration-1000">
+      <div className=" text-1xl  text-2x text align-left rounded-sm bg-pink-500 p-2 ring-offset-green-600 drop-shadow-sm duration-1000">
         {number}
       </div>
     </div>
