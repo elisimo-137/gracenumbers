@@ -1,21 +1,38 @@
 import { useEffect, useState } from "react";
 import Random from "./Random";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import * as React from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Country from "./Country";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function App() {
   const [fact, setFact] = useState({});
   const [number, setNumber] = useState(0);
   const [countries, setCountries] = useState([]);
+  const [region, setRegion] = useState("Oceania");
 
-  const [colors, setColors] = useState([
+  /*const [colors, setColors] = useState([
     "red",
-    "blue",
     "orange",
+    "yellow",
     "green",
+    "blue",
     "purple",
   ]);
-
+*/
   async function getRandomFact() {
     const response = await fetch("http://numbersapi.com/random?json");
     const data = await response.json();
@@ -48,15 +65,39 @@ export default function App() {
 
   return (
     <div className="container">
-      {countries
-        .filter((country) => country.region == "Asia")
-        .map((country) => (
-          <p>{country.name.common}</p>
-        ))}
+      <h3>izbrana regija: {region}</h3>
+      <Select onValueChange={(x) => setRegion(x)}>
+        <SelectTrigger className="w-[200px]">
+          <SelectValue placeholder="Region" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="Europe">Europe</SelectItem>
+          <SelectItem value="Asia">Asia</SelectItem>
+          <SelectItem value="Africa">Africa</SelectItem>
+          <SelectItem value="Oceania">Oceania</SelectItem>
+          <SelectItem value="Americas">America</SelectItem>
+        </SelectContent>
+      </Select>
 
-      {colors.map((color) => (
+      <Carousel>
+        <CarouselContent>
+          {countries
+            .filter((country) => country.region == region)
+            .map((country) => (
+              <>
+                <CarouselItem className="basis-1/3">
+                  <Country data={country}></Country>
+                </CarouselItem>
+              </>
+            ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+
+      {/* {colors.map((color) => (
         <p>{color}</p>
-      ))}
+      ))} */}
       <Input
         placeholder="Vnesi število, ki te zanima..."
         type="number"
