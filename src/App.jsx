@@ -27,13 +27,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Slider } from "@/components/ui/slider";
 
 export default function App() {
   const [fact, setFact] = useState({});
   const [countries, setCountries] = useState([]);
-  const [region, setRegion] = useState("Oceania");
+  const [region, setRegion] = useState("Europe");
   const [number, setNumber] = useState(1);
-  const [landlocked, setLandlocked] = useState(true);
+  const [landlocked, setLandlocked] = useState(false);
+  const [borders, setBorders] = useState(1);
 
   /*const [colors, setColors] = useState([
     "red",
@@ -77,9 +79,9 @@ export default function App() {
   }, [number]);
 
   return (
-    <div className="container">
+    <div container className="flex h-full flex-col items-center gap-4">
       <Vaja></Vaja>
-      <h3>izbrana regija: {region}</h3>
+      <h3>Izbrana regija: {region}</h3>
       <div className="grid grid-cols-3 gap-2">
         <Card>
           <CardHeader>
@@ -105,13 +107,34 @@ export default function App() {
           <CardHeader>
             <CardTitle>Države brez morja</CardTitle>
           </CardHeader>
+          <CardContent>
+            <Checkbox
+              checked={landlocked}
+              onCheckedChange={(value) => setLandlocked(value)}
+            ></Checkbox>
+            označi, če nima morja
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>Število sosednjih držav: {borders}</CardHeader>
+          <CardContent>
+            <Slider
+              defaultValue={[33]}
+              max={14}
+              step={1}
+              onValueChange={(value) => setBorders(value)}
+            />
+          </CardContent>
         </Card>
       </div>
 
-      <Carousel>
+      <Carousel className="w-2/3">
         <CarouselContent>
           {countries
             .filter((country) => region == "all" || country.region == region)
+            .filter((country) => country.landlocked == landlocked)
+            .filter((country) => borders == country.borders.length)
             .map((country) => (
               <>
                 <CarouselItem className="basis-1/3">
@@ -124,15 +147,15 @@ export default function App() {
         <CarouselNext />
       </Carousel>
 
-      {/* {colors.map((color) => (
+      {/* { {colors.map((color) => (
         <p>{color}</p>
-      ))} */}
+      ))} }
       <Input
         placeholder="Vnesi število, ki te zanima..."
         type="number"
         onChange={(e) => setNumber(e.target.value)}
       />
-      <Random fact={fact}></Random>
+      <Random fact={fact}></Random> */}
     </div>
   );
 }
