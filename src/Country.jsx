@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 export default function Country(props) {
   const { flag, name, flags } = props.data;
   return (
